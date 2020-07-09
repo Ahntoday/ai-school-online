@@ -91,19 +91,19 @@ class transportation:
     def show_arrival(self):
         print(self.arrival)
 
-class airplane(transportation):
+class Airplane(transportation):
     """Sub class"""
-    def __init__(self, name, price, departure, arrival, baggage):
+    def __init__(self, name, price, departure, arrival, is_baggage_possible):
         transportation.__init__(self, name, price, departure, arrival)
-        self.baggage = baggage
+        self.is_baggage_possible = is_baggage_possible
 
-    def check_baggage(self):
-        if self.baggage == True:
+    def check_baggage_possibility(self):
+        if self.is_baggage_possible == True:
             print("수하물 맡겼습니다!!!")
         else:
             print("이 비행기는 수하물 못 맏깁니다!!!")
 
-class train(transportation):
+class Train(transportation):
     """Sub class"""
     def __init__(self, name, price, departure, arrival, seat_level):
         transportation.__init__(self, name, price, departure, arrival)
@@ -114,12 +114,12 @@ class train(transportation):
 
 
 def main():
-    airplane1 = airplane("K806", "1000000", "8:00", "12:00", True)
-    airplane2 = airplane("K333", "2000000", "15:00", "19:00", False)
-    train1 = train("무궁화", "20000", "13:03", "15:29", 3)
-    train2 = train("SRT", "40000", "16:49", "18:00", 1)
+    airplane1 = Airplane("K806", "1000000", "8:00", "12:00", True)
+    airplane2 = Airplane("K333", "2000000", "15:00", "19:00", False)
+    train1 = Train("무궁화", "20000", "13:03", "15:29", 3)
+    train2 = Train("SRT", "40000", "16:49", "18:00", 1)
 
-    airplane1.check_baggage()
+    airplane1.check_baggage_possibility()
     airplane2.show_arrival()
 
     train1.show_seat_level()
