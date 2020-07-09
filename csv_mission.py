@@ -1,6 +1,14 @@
 # TODO_0 : csv 모듈 불러오기
 import csv
 
+def read_csv_file():
+    users_data = []
+
+    with open('./users.csv', 'r', encoding='utf-8') as csvfile:
+        users_data = list(csv.reader(csvfile))
+
+    return users_data
+
 def user_input():
     try:
         id, pw = map(str, input("아이디와 비밀번호를 차례로 입력해주세요 : ").split())
@@ -15,31 +23,32 @@ def user_input():
 # 2. 존재하면 비밀번호 맞는지 체크
 # 3. 비밀번호도 맞으면 로그인성공 출력하기
 def signin(id, pw):
-    f = open('data.csv', 'r', encoding='utf-8')
-    rdr = csv.reader(f)
-    for line in rdr: # 다시 구현해야할 듯
-        if id == line[0]:
-            if pw == line[0][1]:
-                print("로그인 성공")
-    f.close()
+    users = read_csv_file()
+    id = check_id(id)
+
+    for user in users:
+        if user[0] == id and user[1] == pw:
+            print('로그인 성공')
+            return
+
+        elif user[0] == id and user[1] != pw:
+            print('비밀번호가 맞지 않습니다')
+            return
 
 
 # TODO_2 : csvfile 에 유저가 존재하는지 확인하는 함수 구현해서 호출하기
 # 1. 아이디를 기준으로 존재하는 유저인지 확인
 # 2. 존재한다면 다시 아이디를 입력받고,
 # 3. 존재하지 않는다면 다음 단계로 넘겨주기
-def check_user(id):
-    f = open('data.csv', 'r', encoding='utf-8')
-    rdr = csv.reader(f)
-    for line in rdr:
-        if id == line[0]:
-            #존재하는 경우 : 다시 아이디 입력받는다.
-            id2 = input("아이디를 입력하세요")
-            return id2
-        else:
-            #존재하지 않는 경우-> 다음단계
+def check_id(id):
+    users = read_csv_file()
+
+    for user in users:
+        if user[0] == id:
             return id
-    f.close()
+
+    print('아이디가 존재하지 않습니다.')
+    exitcheck()
 
 
 # TODO_3 : csvfile 에 등록되어있는 형태로 유저 등록하는 함수 구현하기
@@ -92,7 +101,7 @@ def start():
         # 2. 문제 없으면 회원가입 완료 후 userlist() 함수 구현
 
         input_id = input("아이디를 입력하세요: ")
-        checked_id = check_user(input_id)
+        checked_id = check_id(input_id)
         checked_pw = input("비밀번호를 입력하세요: ")
 
         dict_user = {
