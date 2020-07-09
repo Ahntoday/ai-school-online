@@ -101,7 +101,7 @@ class Airplane(Transportation):
         if self.is_baggage_possible == True:
             print("수하물 맡겼습니다!!!")
         else:
-            print("이 비행기는 수하물 못 맏깁니다!!!")
+            print("이 비행기는 수하물 못 맡깁니다!!!")
 
 class Train(Transportation):
     """Sub class"""
