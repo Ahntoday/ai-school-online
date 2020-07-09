@@ -78,7 +78,7 @@ num_stamp = stamp(num_stamp)  # 화면에 2가 출력된다
 
 # 클래스를 상속을 활용해서 효율적으로 만들어 볼것! (메소드 오버라이딩)
 # 두 개 이상의 인스턴스를 비행기, 기차 각각 만들어 볼것
-class transport:
+class transportation:
     """Super class"""
     def __init__(self, name, price, departure, arrival):
         self.name = name
@@ -91,10 +91,10 @@ class transport:
     def show_arrival(self):
         print(self.arrival)
 
-class airplane(transport):
+class airplane(transportation):
     """Sub class"""
     def __init__(self, name, price, departure, arrival, baggage):
-        transport.__init__(self, name, price, departure, arrival)
+        transportation.__init__(self, name, price, departure, arrival)
         self.baggage = baggage
 
     def check_baggage(self):
@@ -103,10 +103,10 @@ class airplane(transport):
         else:
             print("이 비행기는 수하물 못 맏깁니다!!!")
 
-class train(transport):
+class train(transportation):
     """Sub class"""
     def __init__(self, name, price, departure, arrival, seat_level):
-        transport.__init__(self, name, price, departure, arrival)
+        transportation.__init__(self, name, price, departure, arrival)
         self.seat_level = seat_level
 
     def show_seat_level(self):
