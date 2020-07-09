@@ -2,11 +2,8 @@
 import csv
 
 def read_csv_file():
-    users_data = []
-
-    with open('./users.csv', 'r', encoding='utf-8') as csvfile:
+    with open('./data.csv', 'r', encoding='utf-8') as csvfile:
         users_data = list(csv.reader(csvfile))
-
     return users_data
 
 def user_input():
@@ -24,42 +21,43 @@ def user_input():
 # 3. 비밀번호도 맞으면 로그인성공 출력하기
 def signin(id, pw):
     users = read_csv_file()
-    id = check_id(id)
 
     for user in users:
         if user[0] == id and user[1] == pw:
             print('로그인 성공')
-            return
 
         elif user[0] == id and user[1] != pw:
             print('비밀번호가 맞지 않습니다')
-            return
 
 
 # TODO_2 : csvfile 에 유저가 존재하는지 확인하는 함수 구현해서 호출하기
 # 1. 아이디를 기준으로 존재하는 유저인지 확인
 # 2. 존재한다면 다시 아이디를 입력받고,
 # 3. 존재하지 않는다면 다음 단계로 넘겨주기
-def check_id(id):
+def check_id(input_id):
     users = read_csv_file()
-
+    n = len(users)
+    print("data.csv 리스트의 원소 개수는: ", n)
+    print(users)
     for user in users:
-        if user[0] == id:
-            return id
-
-    print('아이디가 존재하지 않습니다.')
-    exitcheck()
+        for i in range(n):
+            if user[i] == input_id:
+                print("존재하는 아이디입니다")
+                id2 = input("아이디를 다시 입력하세요")
+                return id2
+            else:
+                print('아이디가 존재하지 않습니다. 다음 단계로 고고링~!')
+                return input_id
 
 
 # TODO_3 : csvfile 에 등록되어있는 형태로 유저 등록하는 함수 구현하기
 # 1. 아이디와 비밀번호를 그냥 데이터로 받아서 추가해보기
 # 2. 아이디와 비밀번호를 '딕셔너리' 형태로 받아서 추가해보기 (프로그래밍 실력의 기본은 구글링! 최대한 구글링 해보세요!!)
 def signup(checked_id, checked_pw):
-    f = open('data.csv', 'a', newline='')
-    wr = csv.writer(f)
-    wr.writerow([checked_id, checked_pw])
-    f.close()
-    print("회원가입이 완료되었습니다.")
+    with open('data.csv', 'a', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([checked_id, checked_pw])
+        print("%s님 회원가입 되었습니다!" %checked_id)
 
 # def signup(dict_user):
 #     print(dict_user)
@@ -71,11 +69,11 @@ def signup(checked_id, checked_pw):
 def userlist():
     print("현재 존재하는 유저 :")
     # TODO_4 : csvfile 에서 현재 가입되어 있는 유저 전부 출력하기
-    f = open('data.csv', 'r', encoding='utf-8')
-    rdr = csv.reader(f)
-    for line in rdr:
-        print(line)
-    f.close()
+    with open('data.csv', 'r', encoding='utf-8') as csvfile:
+        csvreader = csv.reader(csvfile)
+        for i in csvreader:
+            print("id: %s, pw: %s" %(i[0], i[1]))
+
 
 def exitcheck():
     stop = int(input("\n계속하시려면 0, 종료하시려면 1을 눌러주세요. : "))
@@ -104,6 +102,7 @@ def start():
         checked_id = check_id(input_id)
         checked_pw = input("비밀번호를 입력하세요: ")
 
+
         dict_user = {
             "id": checked_id,
             "pw": checked_pw
@@ -123,3 +122,7 @@ def start():
 
 
 start()
+
+with open('./data.csv', 'r', encoding='utf-8') as csvfile:
+    users_data = list(csv.reader(csvfile))
+    print(users_data)
